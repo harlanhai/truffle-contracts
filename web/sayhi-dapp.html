@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SayHi DApp - 区块链打招呼应用</title>
+    <title>Truffle DApp</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.1/ethers.umd.min.js"></script>
     <style>
@@ -272,7 +272,7 @@
 
     <script>
       // 合约配置
-      const CONTRACT_ADDRESS = '0x61aa7C18cBB9D3d9A7FcB017BeC2D05B2255F2fa';
+      const CONTRACT_ADDRESS = '0x99990E577e5b8565fE2Ad0cB1eA3EaD734cBD8D5';
       let CONTRACT_ABI = null; // 将从JSON文件加载
 
       // 全局变量
@@ -285,7 +285,7 @@
       async function loadContractABI() {
         try {
           console.log('正在加载合约ABI...');
-          const response = await fetch('./FirstContract.json');
+          const response = await fetch('./SayHi.json');
 
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

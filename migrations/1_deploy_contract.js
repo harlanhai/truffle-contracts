@@ -1,5 +1,5 @@
-const FirstContract = artifacts.require('FirstContract');
+const SayHi = artifacts.require('SayHi');
 
 module.exports = function (deployer) {
-  deployer.deploy(FirstContract);
+  deployer.deploy(SayHi);
 };

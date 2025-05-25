@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract FirstContract {
+contract SayHi {
     // 状态变量
     address public owner;
     uint256 public totalMessages;

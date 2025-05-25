@@ -1,0 +1,7 @@
+# build
+# /build
+node_modules
+/web/node_modules
+/.vscode
+/.idea
+/.DS_Store
