@@ -9,7 +9,9 @@ contract RedPacket {
     uint256 remainAmount; // 剩余红包金额
     bool isEqual; // 是否是等额红包
     bool isActive; // 红包是否有效
-    mapping(address => bool) claimed; // 使用 mapping 记录已领取用户
+    uint256 version; // 红包版本号
+    // 给领取用户增加版本号，防止新红包还查找就红包记录
+    mapping(address => uint256) claimedVersion;
 
     // 创建一个外部函数的红包
     function createRedPacket(uint256 _totalCount, bool _isEqual) external {
@@ -22,6 +24,9 @@ contract RedPacket {
         remainCount = _totalCount;
         isEqual = _isEqual;
         isActive = false;
+
+        // 增加版本号
+        version++;
     }
 
     // 设置红包总金额
@@ -51,11 +56,11 @@ contract RedPacket {
         );
         // 判断红包数量是否取完
         require(remainAmount > 0, "No red packets left");
-        // 判断是否已领取
-        require(!claimed[msg.sender], "Already claimed");
+        // 判断用户在当前版本的红包中是否已领取
+        require(claimedVersion[msg.sender] != version, "Already claimed in this version");
 
         // 把当前账户状态设置为 true
-        claimed[msg.sender] = true;
+        claimedVersion[msg.sender] = version;
         remainCount--;
         uint256 claimAmount;
 
@@ -98,7 +103,7 @@ contract RedPacket {
         // 判断是否是红包发送者
         require(msg.sender == sender, "Only sender can withdraw");
         // 判断红包是否已激活
-        require(!isActive, "Red packet is still active");
+        // require(!isActive, "Red packet is still active");
         // 判断剩余金额是否大于0
         require(remainAmount > 0, "No remaining amount to withdraw");
 
@@ -115,8 +120,23 @@ contract RedPacket {
         return address(this).balance;
     }
         
-    // 查询用户是否已领取红包
+    // 查询用户是否已领取当前版本的红包
     function hasClaimed(address _user) external view returns (bool) {
-        return claimed[_user];
+        return claimedVersion[_user] == version;
+    }
+
+    // 查询当前红包版本号
+    function getCurrentVersion() external view returns (uint256) {
+        return version;
+    }
+
+    // 查询用户领取的红包版本号
+    function getUserClaimedVersion(address _user) external view returns (uint256) {
+        return claimedVersion[_user];
+    }
+
+    // 查询红包是否处于激活状态
+    function getIsActive() external view returns (bool) {
+        return isActive;
     }
 }
